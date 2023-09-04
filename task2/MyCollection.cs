@@ -2,40 +2,52 @@
 
 namespace task2
 {
-    class MyCollection : IEnumerable, IEnumerator
+    class MyCollection : IEnumerable<int>
     {
-        private int[] myArray;
-        private int position = -1;
+        int[] myArray;
 
-        public MyCollection(int[] array)
-        {
+        public MyCollection(int[] array) =>
             myArray = array;
-        }
 
-        public object Current
-        {
-            get => myArray[position];
-        }
+        public IEnumerator<int> GetEnumerator() =>
+            new Enumerator(this);
 
-        public bool MoveNext()
+        IEnumerator IEnumerable.GetEnumerator() =>
+            new Enumerator(this);
+
+        class Enumerator : IEnumerator<int>
         {
-            while (position < myArray.Length - 1)
+            int position = -1;
+
+            MyCollection collection;
+
+            internal Enumerator(MyCollection collection) =>
+                this.collection = collection;
+
+            public int Current =>
+                collection.myArray[position];
+
+            object IEnumerator.Current => 
+                Current; 
+
+            public bool MoveNext()
             {
-                position++;
-                if (myArray[position] % 2 == 0 && myArray[position] != 0)
-                    return true;
+                while (position < collection.myArray.Length - 1)
+                {
+                    position++;
+                    if (collection.myArray[position] % 2 == 0 && collection.myArray[position] != 0)
+                        return true;
 
+                }
+
+                Reset();
+                return false;
             }
-            Reset();
-            return false;
-        }
 
-        public void Reset() =>
-            position = -1;
-        
-        public IEnumerator GetEnumerator()
-        {
-            return this;
+            public void Reset() =>
+                position = -1;
+
+            public void Dispose() { }
         }
     }
 }

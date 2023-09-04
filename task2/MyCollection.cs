@@ -4,7 +4,7 @@ namespace task2
 {
     class MyCollection : IEnumerable<int>
     {
-        int[] myArray;
+        private int[] myArray;
 
         public MyCollection(int[] array) =>
             myArray = array;
@@ -17,7 +17,7 @@ namespace task2
 
         class Enumerator : IEnumerator<int>
         {
-            int position = -1;
+            private int position = -1;
 
             MyCollection collection;
 
@@ -37,17 +37,16 @@ namespace task2
                     position++;
                     if (collection.myArray[position] % 2 == 0 && collection.myArray[position] != 0)
                         return true;
-
                 }
 
-                Reset();
                 return false;
             }
 
             public void Reset() =>
                 position = -1;
 
-            public void Dispose() { }
+            public void Dispose() =>
+                Reset();
         }
     }
 }

@@ -12,15 +12,6 @@ namespace task2
             myArray = array;
         }
 
-        //public void GetPairNumber()
-        //{
-        //    if (myArray[position + 1] % 2 == 0) 
-        //    { 
-        //        GetEnumerator();
-        //    }
-
-        //}
-
         public object Current
         {
             get => myArray[position];
